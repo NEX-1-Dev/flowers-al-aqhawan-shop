@@ -1,0 +1,272 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #8B0000, #FF69B4, #D4AF37);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* شاشة تسجيل الدخول */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    text-align: center;
+    width: 400px;
+    max-width: 95%;
+    border: 3px solid #D4AF37;
+}
+
+.login-box h2 {
+    color: #8B0000;
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.developer-login {
+    color: #D4AF37;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.password-input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #FF69B4;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.password-input:focus {
+    border-color: #D4AF37;
+}
+
+.login-btn {
+    background: linear-gradient(135deg, #8B0000, #D4AF37);
+    color: #fff;
+    border: none;
+    padding: 14px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.3s;
+}
+
+.login-btn:hover {
+    transform: scale(1.02);
+}
+
+.error-msg {
+    color: #FF0000;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* لوحة التحكم */
+.admin-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    padding: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #D4AF37;
+    padding-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.admin-header h1 {
+    color: #8B0000;
+    font-size: 1.8rem;
+}
+
+.admin-header p {
+    color: #D4AF37;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background: #8B0000;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.logout-btn:hover {
+    background: #D4AF37;
+}
+
+.admin-content {
+    margin-top: 25px;
+}
+
+/* نموذج الإضافة */
+.add-product-form {
+    background: rgba(255, 182, 193, 0.3);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border: 2px solid #D4AF37;
+}
+
+.add-product-form h2 {
+    color: #8B0000;
+    margin-bottom: 15px;
+}
+
+.admin-input {
+    width: 100%;
+    padding: 12px 18px;
+    border: 2px solid #FF69B4;
+    border-radius: 30px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.admin-input:focus {
+    border-color: #D4AF37;
+}
+
+.add-btn {
+    background: linear-gradient(135deg, #D4AF37, #8B0000);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.3s;
+}
+
+.add-btn:hover {
+    transform: scale(1.02);
+}
+
+/* قائمة المنتجات في لوحة التحكم */
+.products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px 20px;
+    border-radius: 15px;
+    border: 2px solid #FF69B4;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.admin-product-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #D4AF37;
+}
+
+.admin-product-item .item-info {
+    flex: 1;
+    padding: 0 15px;
+}
+
+.admin-product-item .item-info p {
+    margin: 3px 0;
+    color: #333;
+}
+
+.admin-product-item .item-info .item-price {
+    color: #8B0000;
+    font-weight: bold;
+}
+
+.admin-actions button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0 5px;
+    transition: transform 0.3s;
+}
+
+.admin-actions button:hover {
+    transform: scale(1.05);
+}
+
+.edit-btn {
+    background: #D4AF37;
+    color: #fff;
+}
+
+.delete-btn {
+    background: #8B0000;
+    color: #fff;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 600px) {
+    .admin-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .login-box {
+        padding: 25px;
+    }
+    
+    .admin-product-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .admin-product-item .item-info {
+        padding: 10px 0;
+    }
+}
