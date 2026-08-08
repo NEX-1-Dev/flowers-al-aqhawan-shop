@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "image": "https://files.catbox.moe/9e4lw1.jpg",
+      "description": "15 وردة - ألوان مختلطة (أحمر، وردي، أبيض)",
+      "price": "600 ليرة سورية"
+    },
+    {
+      "id": 2,
+      "image": "https://files.catbox.moe/11na6q.jpg",
+      "description": "10 وردات - ألوان دافئة (برتقالي، أصفر، أحمر)",
+      "price": "400 ليرة سورية"
+    },
+    {
+      "id": 3,
+      "image": "https://files.catbox.moe/b8lsep.jpg",
+      "description": "10 وردات مع جبسوفيل - ألوان باستيل (وردي، أرجواني، أبيض)",
+      "price": "500 ليرة سورية"
+    }
+  ]
+}
