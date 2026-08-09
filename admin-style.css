@@ -19,7 +19,7 @@ body {
     padding: 20px;
 }
 
-/* شاشة تسجيل الدخول */
+/* ===== شاشة تسجيل الدخول ===== */
 .login-container {
     display: flex;
     justify-content: center;
@@ -89,7 +89,7 @@ body {
     font-weight: bold;
 }
 
-/* لوحة التحكم */
+/* ===== لوحة التحكم ===== */
 .admin-panel {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 30px;
@@ -106,6 +106,7 @@ body {
     border-bottom: 3px solid #D4AF37;
     padding-bottom: 15px;
     flex-wrap: wrap;
+    gap: 10px;
 }
 
 .admin-header h1 {
@@ -116,6 +117,28 @@ body {
 .admin-header p {
     color: #D4AF37;
     font-weight: bold;
+}
+
+.admin-actions-header {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.copy-link-btn {
+    background: #D4AF37;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.copy-link-btn:hover {
+    background: #8B0000;
+    transform: scale(1.05);
 }
 
 .logout-btn {
@@ -137,7 +160,64 @@ body {
     margin-top: 25px;
 }
 
-/* نموذج الإضافة */
+/* ===== قسم الإعلانات ===== */
+.announcement-control {
+    background: linear-gradient(135deg, rgba(139,0,0,0.1), rgba(212,175,55,0.1));
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border: 2px solid #D4AF37;
+}
+
+.announcement-control h2 {
+    color: #8B0000;
+    margin-bottom: 15px;
+}
+
+.announcement-input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.announcement-input-group input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.update-announcement-btn {
+    background: linear-gradient(135deg, #D4AF37, #8B0000);
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.update-announcement-btn:hover {
+    transform: scale(1.05);
+}
+
+.show-products-btn {
+    background: linear-gradient(135deg, #FF69B4, #8B0000);
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: transform 0.3s;
+    width: 100%;
+}
+
+.show-products-btn:hover {
+    transform: scale(1.02);
+}
+
+/* ===== نموذج الإضافة ===== */
 .add-product-form {
     background: rgba(255, 182, 193, 0.3);
     padding: 25px;
@@ -166,6 +246,11 @@ body {
     border-color: #D4AF37;
 }
 
+.admin-input select {
+    background: #fff;
+    color: #333;
+}
+
 .add-btn {
     background: linear-gradient(135deg, #D4AF37, #8B0000);
     color: #fff;
@@ -183,7 +268,7 @@ body {
     transform: scale(1.02);
 }
 
-/* قائمة المنتجات في لوحة التحكم */
+/* ===== قائمة المنتجات ===== */
 .products-list {
     display: flex;
     flex-direction: column;
@@ -249,7 +334,7 @@ body {
     color: #fff;
 }
 
-/* تصميم متجاوب */
+/* ===== تصميم متجاوب ===== */
 @media (max-width: 600px) {
     .admin-header {
         flex-direction: column;
@@ -268,5 +353,13 @@ body {
     
     .admin-product-item .item-info {
         padding: 10px 0;
+    }
+
+    .announcement-input-group {
+        flex-direction: column;
+    }
+
+    .admin-actions-header {
+        justify-content: center;
     }
 }
