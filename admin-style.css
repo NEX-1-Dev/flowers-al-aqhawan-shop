@@ -271,6 +271,32 @@ body {
     transform: scale(1.02);
 }
 
+.save-announcements-btn {
+    background: linear-gradient(135deg, #D4AF37, #8B0000);
+    color: #fff;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.3s;
+}
+
+.save-announcements-btn:hover {
+    transform: scale(1.03);
+}
+
+.save-announcements-btn i {
+    font-size: 1.2rem;
+}
+
 /* ===== قسم الإعلان العلوي ===== */
 .top-announcement-control {
     background: rgba(255, 182, 193, 0.3);
