@@ -5,13 +5,16 @@ const CORRECT_PASSWORD = '15151617';
 let products = [];
 let announcements = [];
 
-// ===== تحميل الإعلانات =====
-function loadAnnouncementsFromStorage() {
-    const saved = localStorage.getItem('announcements');
-    if (saved) {
-        try {
-            announcements = JSON.parse(saved);
-        } catch {
+// ===== تحميل الإعلانات من ملف JSON =====
+function loadAnnouncementsFromFile() {
+    fetch('announcements.json')
+        .then(response => response.json())
+        .then(data => {
+            announcements = data.announcements;
+            displayAnnouncementsAdmin();
+        })
+        .catch(error => {
+            console.error('خطأ في تحميل الإعلانات:', error);
             announcements = [
                 {
                     id: 1,
@@ -30,28 +33,8 @@ function loadAnnouncementsFromStorage() {
                     date: "2026-08-09"
                 }
             ];
-        }
-    } else {
-        announcements = [
-            {
-                id: 1,
-                image: "https://files.catbox.moe/957jwa.png",
-                title: "🎉 خد هديتك مميزة وضل ذكرى طول العمر",
-                description: "🤍💙🎓 من Flowers Al aqhawan بمناسبة الافتتاح الكبير",
-                badge: "عرض خاص",
-                date: "2026-08-09"
-            },
-            {
-                id: 2,
-                image: "https://files.catbox.moe/9e4lw1.jpg",
-                title: "🌹 باقة الورد المختلط",
-                description: "تشكيلة رائعة من الورود بألوان مختلفة",
-                badge: "تخفيضات",
-                date: "2026-08-09"
-            }
-        ];
-    }
-    displayAnnouncementsAdmin();
+            displayAnnouncementsAdmin();
+        });
 }
 
 // ===== عرض الإعلانات في لوحة التحكم =====
@@ -59,7 +42,7 @@ function displayAnnouncementsAdmin() {
     const list = document.getElementById('announcementList');
     list.innerHTML = '';
     
-    if (announcements.length === 0) {
+    if (!announcements || announcements.length === 0) {
         list.innerHTML = '<p style="color:#666;">📢 لا توجد إعلانات. أضف إعلاناً جديداً!</p>';
         return;
     }
@@ -68,7 +51,7 @@ function displayAnnouncementsAdmin() {
         const div = document.createElement('div');
         div.className = 'announcement-item-admin';
         div.innerHTML = `
-            <img src="${item.image}" alt="${item.title}">
+            <img src="${item.image}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/50/8B0000/D4AF37?text=Flowers'">
             <div class="ann-info">
                 <h4>${item.title}</h4>
                 <p>${item.description}</p>
@@ -104,14 +87,13 @@ function addAnnouncement() {
     });
     
     displayAnnouncementsAdmin();
-    saveAnnouncements();
     
     document.getElementById('annImage').value = '';
     document.getElementById('annTitle').value = '';
     document.getElementById('annDesc').value = '';
     document.getElementById('annBadge').value = '';
     
-    alert('✅ تم إضافة الإعلان بنجاح!');
+    alert('✅ تم إضافة الإعلان بنجاح! انقر على "حفظ الإعلانات" لتحديث الملف.');
 }
 
 // ===== حذف إعلان =====
@@ -119,19 +101,23 @@ function removeAnnouncement(index) {
     if (!confirm('⚠️ هل أنت متأكد من حذف هذا الإعلان؟')) return;
     announcements.splice(index, 1);
     displayAnnouncementsAdmin();
-    saveAnnouncements();
-    alert('✅ تم حذف الإعلان!');
+    alert('✅ تم حذف الإعلان! انقر على "حفظ الإعلانات" لتحديث الملف.');
 }
 
-// ===== حفظ الإعلانات =====
+// ===== حفظ الإعلانات في ملف JSON =====
 function saveAnnouncements() {
-    localStorage.setItem('announcements', JSON.stringify(announcements));
-    // تحديث في الصفحة الرئيسية
-    if (window.opener) {
-        try {
-            window.opener.updateAnnouncementsFromAdmin(announcements);
-        } catch {}
-    }
+    const data = { announcements: announcements };
+    const json = JSON.stringify(data, null, 2);
+    
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'announcements.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    alert('✅ تم حفظ الإعلانات!\n📁 قم برفع ملف announcements.json إلى GitHub لتحديث المتجر للجميع.');
 }
 
 // ===== تحديث الإعلان العلوي =====
@@ -149,7 +135,7 @@ function updateTopAnnouncement() {
         } catch {}
     }
     document.getElementById('topAnnouncementInput').value = '';
-    alert('✅ تم تحديث الإعلان العلوي!');
+    alert('✅ تم تحديث الإعلان العلوي! (للمتصفح الحالي فقط)');
 }
 
 // ===== تحميل المنتجات =====
@@ -197,7 +183,7 @@ function verifyPassword() {
         document.getElementById('loginContainer').style.display = 'none';
         document.getElementById('adminPanel').style.display = 'block';
         loadProducts();
-        loadAnnouncementsFromStorage();
+        loadAnnouncementsFromFile();
         
         const topMsg = localStorage.getItem('topAnnouncement');
         if (topMsg) {
@@ -248,7 +234,7 @@ function displayAdminProducts() {
         else if (product.category === 'mixed') categoryText = '🌈 مختلط';
         
         item.innerHTML = `
-            <img src="${product.image}" alt="منتج">
+            <img src="${product.image}" alt="منتج" onerror="this.src='https://via.placeholder.com/60/8B0000/D4AF37?text=Flowers'">
             <div class="item-info">
                 <p><strong>الباقة رقم ${product.id}</strong> <span style="color:#8B0000;font-size:0.8rem;">${categoryText}</span></p>
                 <p>${product.description}</p>
@@ -340,7 +326,6 @@ function saveProducts() {
     a.click();
     URL.revokeObjectURL(url);
     
-    localStorage.setItem('shopProducts', json);
     alert('✅ تم حفظ المنتجات!\n📁 قم برفع ملف products.json إلى GitHub لتحديث المتجر للجميع.');
 }
 
@@ -355,6 +340,6 @@ document.addEventListener('keydown', function(e) {
 window.onload = function() {
     if (document.getElementById('adminPanel').style.display === 'block') {
         loadProducts();
-        loadAnnouncementsFromStorage();
+        loadAnnouncementsFromFile();
     }
 };
