@@ -5,7 +5,7 @@ const CORRECT_PASSWORD = '15151617';
 let products = [];
 let announcements = [];
 
-// ===== تحميل الإعلانات المحفوظة =====
+// ===== تحميل الإعلانات =====
 function loadAnnouncementsFromStorage() {
     const saved = localStorage.getItem('announcements');
     if (saved) {
@@ -14,24 +14,40 @@ function loadAnnouncementsFromStorage() {
         } catch {
             announcements = [
                 {
-                    image: "https://files.catbox.moe/9e4lw1.jpg",
-                    text: "🎉 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓 من Flowers Al aqhawan"
+                    id: 1,
+                    image: "https://files.catbox.moe/957jwa.png",
+                    title: "🎉 خد هديتك مميزة وضل ذكرى طول العمر",
+                    description: "🤍💙🎓 من Flowers Al aqhawan بمناسبة الافتتاح الكبير",
+                    badge: "عرض خاص",
+                    date: "2026-08-09"
                 },
                 {
-                    image: "https://files.catbox.moe/11na6q.jpg",
-                    text: "🌹 عروض خاصة بمناسبة الافتتاح! خصم 20% على جميع الباقات"
+                    id: 2,
+                    image: "https://files.catbox.moe/9e4lw1.jpg",
+                    title: "🌹 باقة الورد المختلط",
+                    description: "تشكيلة رائعة من الورود بألوان مختلفة",
+                    badge: "تخفيضات",
+                    date: "2026-08-09"
                 }
             ];
         }
     } else {
         announcements = [
             {
-                image: "https://files.catbox.moe/9e4lw1.jpg",
-                text: "🎉 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓 من Flowers Al aqhawan"
+                id: 1,
+                image: "https://files.catbox.moe/957jwa.png",
+                title: "🎉 خد هديتك مميزة وضل ذكرى طول العمر",
+                description: "🤍💙🎓 من Flowers Al aqhawan بمناسبة الافتتاح الكبير",
+                badge: "عرض خاص",
+                date: "2026-08-09"
             },
             {
-                image: "https://files.catbox.moe/11na6q.jpg",
-                text: "🌹 عروض خاصة بمناسبة الافتتاح! خصم 20% على جميع الباقات"
+                id: 2,
+                image: "https://files.catbox.moe/9e4lw1.jpg",
+                title: "🌹 باقة الورد المختلط",
+                description: "تشكيلة رائعة من الورود بألوان مختلفة",
+                badge: "تخفيضات",
+                date: "2026-08-09"
             }
         ];
     }
@@ -52,9 +68,13 @@ function displayAnnouncementsAdmin() {
         const div = document.createElement('div');
         div.className = 'announcement-item-admin';
         div.innerHTML = `
-            <img src="${item.image}" alt="إعلان">
-            <span class="announcement-text-admin">${item.text}</span>
-            <button onclick="removeAnnouncement(${index})" class="remove-announcement-btn">✕</button>
+            <img src="${item.image}" alt="${item.title}">
+            <div class="ann-info">
+                <h4>${item.title}</h4>
+                <p>${item.description}</p>
+                <span style="font-size:0.8rem;color:#D4AF37;">${item.badge || 'إعلان'}</span>
+            </div>
+            <button onclick="removeAnnouncement(${index})" class="remove-announcement-btn">✕ حذف</button>
         `;
         list.appendChild(div);
     });
@@ -62,21 +82,36 @@ function displayAnnouncementsAdmin() {
 
 // ===== إضافة إعلان =====
 function addAnnouncement() {
-    const image = document.getElementById('announcementImage').value.trim();
-    const text = document.getElementById('announcementText').value.trim();
+    const image = document.getElementById('annImage').value.trim();
+    const title = document.getElementById('annTitle').value.trim();
+    const description = document.getElementById('annDesc').value.trim();
+    const badge = document.getElementById('annBadge').value.trim() || '📢 إعلان';
     
-    if (!image || !text) {
+    if (!image || !title || !description) {
         alert('❌ الرجاء ملء جميع الحقول!');
         return;
     }
     
-    announcements.push({ image, text });
+    const newId = announcements.length > 0 ? Math.max(...announcements.map(a => a.id || 0)) + 1 : 1;
+    
+    announcements.push({
+        id: newId,
+        image: image,
+        title: title,
+        description: description,
+        badge: badge,
+        date: new Date().toLocaleDateString('ar-EG')
+    });
+    
     displayAnnouncementsAdmin();
+    saveAnnouncements();
     
-    document.getElementById('announcementImage').value = '';
-    document.getElementById('announcementText').value = '';
+    document.getElementById('annImage').value = '';
+    document.getElementById('annTitle').value = '';
+    document.getElementById('annDesc').value = '';
+    document.getElementById('annBadge').value = '';
     
-    alert('✅ تم إضافة الإعلان! لا تنسى حفظ التغييرات.');
+    alert('✅ تم إضافة الإعلان بنجاح!');
 }
 
 // ===== حذف إعلان =====
@@ -84,38 +119,37 @@ function removeAnnouncement(index) {
     if (!confirm('⚠️ هل أنت متأكد من حذف هذا الإعلان؟')) return;
     announcements.splice(index, 1);
     displayAnnouncementsAdmin();
-    alert('✅ تم حذف الإعلان! لا تنسى حفظ التغييرات.');
+    saveAnnouncements();
+    alert('✅ تم حذف الإعلان!');
 }
 
 // ===== حفظ الإعلانات =====
 function saveAnnouncements() {
     localStorage.setItem('announcements', JSON.stringify(announcements));
-    // تحديث الإعلانات في الصفحة الرئيسية
+    // تحديث في الصفحة الرئيسية
     if (window.opener) {
         try {
             window.opener.updateAnnouncementsFromAdmin(announcements);
         } catch {}
     }
-    alert('✅ تم حفظ الإعلانات بنجاح!');
 }
 
-// ===== تحديث الرسالة الترحيبية =====
-function updateWelcomeMessage() {
-    const message = document.getElementById('welcomeMessageInput').value.trim();
+// ===== تحديث الإعلان العلوي =====
+function updateTopAnnouncement() {
+    const message = document.getElementById('topAnnouncementInput').value.trim();
     if (!message) {
-        alert('❌ الرجاء كتابة الرسالة!');
+        alert('❌ الرجاء كتابة النص!');
         return;
     }
     
-    localStorage.setItem('welcomeMessage', message);
-    // تحديث في الصفحة الرئيسية
+    localStorage.setItem('topAnnouncement', message);
     if (window.opener) {
         try {
             window.opener.updateWelcomeMessageFromAdmin(message);
         } catch {}
     }
-    document.getElementById('welcomeMessageInput').value = '';
-    alert('✅ تم تحديث الرسالة الترحيبية بنجاح!');
+    document.getElementById('topAnnouncementInput').value = '';
+    alert('✅ تم تحديث الإعلان العلوي!');
 }
 
 // ===== تحميل المنتجات =====
@@ -164,10 +198,10 @@ function verifyPassword() {
         document.getElementById('adminPanel').style.display = 'block';
         loadProducts();
         loadAnnouncementsFromStorage();
-        // تحميل الرسالة الترحيبية الحالية
-        const welcomeMsg = localStorage.getItem('welcomeMessage');
-        if (welcomeMsg) {
-            document.getElementById('welcomeMessageInput').value = welcomeMsg;
+        
+        const topMsg = localStorage.getItem('topAnnouncement');
+        if (topMsg) {
+            document.getElementById('topAnnouncementInput').value = topMsg;
         }
         error.textContent = '';
     } else {
@@ -197,11 +231,6 @@ function copyShopLink() {
         document.body.removeChild(textarea);
         alert('✅ تم نسخ رابط المتجر:\n' + url);
     });
-}
-
-// ===== عرض المنتجات (زر) =====
-function showProducts() {
-    window.open('index.html', '_blank');
 }
 
 // ===== عرض المنتجات في لوحة التحكم =====
