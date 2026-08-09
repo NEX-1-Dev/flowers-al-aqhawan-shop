@@ -134,6 +134,9 @@ body {
     cursor: pointer;
     font-weight: bold;
     transition: background 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .copy-link-btn:hover {
@@ -150,6 +153,9 @@ body {
     cursor: pointer;
     font-weight: bold;
     transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .logout-btn:hover {
@@ -158,6 +164,16 @@ body {
 
 .admin-content {
     margin-top: 25px;
+}
+
+.admin-hint {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 8px 15px;
+    border-radius: 30px;
+    display: inline-block;
 }
 
 /* ===== قسم الإعلانات ===== */
@@ -171,21 +187,60 @@ body {
 
 .announcement-control h2 {
     color: #8B0000;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
-.announcement-input-group {
+.announcement-list {
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    flex-wrap: wrap;
+    margin: 15px 0;
 }
 
-.announcement-input-group input {
+.announcement-item-admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.8);
+    padding: 10px 15px;
+    border-radius: 15px;
+    border: 1px solid #FF69B4;
+}
+
+.announcement-item-admin img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.announcement-item-admin .announcement-text-admin {
     flex: 1;
-    min-width: 200px;
+    padding: 0 15px;
+    color: #333;
 }
 
-.update-announcement-btn {
+.announcement-item-admin .remove-announcement-btn {
+    background: #8B0000;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.add-announcement-form {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px dashed #D4AF37;
+}
+
+.add-announcement-form h3 {
+    color: #8B0000;
+    margin-bottom: 10px;
+}
+
+.add-announcement-btn {
     background: linear-gradient(135deg, #D4AF37, #8B0000);
     color: #fff;
     border: none;
@@ -194,13 +249,18 @@ body {
     cursor: pointer;
     font-weight: bold;
     transition: transform 0.3s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.update-announcement-btn:hover {
-    transform: scale(1.05);
+.add-announcement-btn:hover {
+    transform: scale(1.02);
 }
 
-.show-products-btn {
+.save-announcements-btn {
     background: linear-gradient(135deg, #FF69B4, #8B0000);
     color: #fff;
     border: none;
@@ -208,12 +268,50 @@ body {
     border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 15px;
     transition: transform 0.3s;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.show-products-btn:hover {
+.save-announcements-btn:hover {
+    transform: scale(1.02);
+}
+
+/* ===== قسم الرسالة الترحيبية ===== */
+.welcome-control {
+    background: rgba(255, 182, 193, 0.3);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border: 2px solid #D4AF37;
+}
+
+.welcome-control h2 {
+    color: #8B0000;
+    margin-bottom: 5px;
+}
+
+.update-welcome-btn {
+    background: linear-gradient(135deg, #D4AF37, #FF69B4);
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.3s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.update-welcome-btn:hover {
     transform: scale(1.02);
 }
 
@@ -262,6 +360,10 @@ body {
     cursor: pointer;
     width: 100%;
     transition: transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .add-btn:hover {
@@ -269,6 +371,36 @@ body {
 }
 
 /* ===== قائمة المنتجات ===== */
+.products-section {
+    margin-top: 30px;
+}
+
+.products-section h2 {
+    color: #8B0000;
+    margin-bottom: 15px;
+}
+
+.show-products-btn {
+    background: linear-gradient(135deg, #FF69B4, #8B0000);
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 15px;
+    transition: transform 0.3s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.show-products-btn:hover {
+    transform: scale(1.02);
+}
+
 .products-list {
     display: flex;
     flex-direction: column;
@@ -355,11 +487,13 @@ body {
         padding: 10px 0;
     }
 
-    .announcement-input-group {
-        flex-direction: column;
-    }
-
     .admin-actions-header {
         justify-content: center;
+    }
+
+    .announcement-item-admin {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
     }
 }
