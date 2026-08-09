@@ -195,6 +195,8 @@ body {
     flex-direction: column;
     gap: 10px;
     margin: 15px 0;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .announcement-item-admin {
@@ -208,16 +210,25 @@ body {
 }
 
 .announcement-item-admin img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     object-fit: cover;
 }
 
-.announcement-item-admin .announcement-text-admin {
+.announcement-item-admin .ann-info {
     flex: 1;
     padding: 0 15px;
-    color: #333;
+}
+
+.announcement-item-admin .ann-info h4 {
+    color: #8B0000;
+    font-size: 0.95rem;
+}
+
+.announcement-item-admin .ann-info p {
+    color: #666;
+    font-size: 0.85rem;
 }
 
 .announcement-item-admin .remove-announcement-btn {
@@ -260,29 +271,8 @@ body {
     transform: scale(1.02);
 }
 
-.save-announcements-btn {
-    background: linear-gradient(135deg, #FF69B4, #8B0000);
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 15px;
-    transition: transform 0.3s;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.save-announcements-btn:hover {
-    transform: scale(1.02);
-}
-
-/* ===== قسم الرسالة الترحيبية ===== */
-.welcome-control {
+/* ===== قسم الإعلان العلوي ===== */
+.top-announcement-control {
     background: rgba(255, 182, 193, 0.3);
     padding: 25px;
     border-radius: 20px;
@@ -290,12 +280,12 @@ body {
     border: 2px solid #D4AF37;
 }
 
-.welcome-control h2 {
+.top-announcement-control h2 {
     color: #8B0000;
     margin-bottom: 5px;
 }
 
-.update-welcome-btn {
+.update-top-btn {
     background: linear-gradient(135deg, #D4AF37, #FF69B4);
     color: #fff;
     border: none;
@@ -311,7 +301,7 @@ body {
     gap: 8px;
 }
 
-.update-welcome-btn:hover {
+.update-top-btn:hover {
     transform: scale(1.02);
 }
 
@@ -344,9 +334,11 @@ body {
     border-color: #D4AF37;
 }
 
-.admin-input select {
+.admin-input select,
+.admin-input textarea {
     background: #fff;
     color: #333;
+    resize: vertical;
 }
 
 .add-btn {
@@ -378,27 +370,6 @@ body {
 .products-section h2 {
     color: #8B0000;
     margin-bottom: 15px;
-}
-
-.show-products-btn {
-    background: linear-gradient(135deg, #FF69B4, #8B0000);
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 15px;
-    transition: transform 0.3s;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.show-products-btn:hover {
-    transform: scale(1.02);
 }
 
 .products-list {
