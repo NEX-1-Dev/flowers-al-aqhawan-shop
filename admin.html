@@ -22,15 +22,33 @@
             <div class="admin-header">
                 <h1>🌼 لوحة تحكم المالك</h1>
                 <p>💻 𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1</p>
-                <button onclick="logout()" class="logout-btn">🚪 خروج</button>
+                <div class="admin-actions-header">
+                    <button onclick="copyShopLink()" class="copy-link-btn">📋 نسخ رابط المتجر</button>
+                    <button onclick="logout()" class="logout-btn">🚪 خروج</button>
+                </div>
             </div>
 
             <div class="admin-content">
+                <!-- قسم الإعلانات -->
+                <div class="announcement-control">
+                    <h2>📢 إدارة الإعلان</h2>
+                    <div class="announcement-input-group">
+                        <input type="text" id="announcementInput" placeholder="أدخل نص الإعلان الجديد" class="admin-input">
+                        <button onclick="updateAnnouncementFromAdmin()" class="update-announcement-btn">🔄 تحديث الإعلان</button>
+                    </div>
+                    <button onclick="showProducts()" class="show-products-btn">🌹 عرض المنتجات</button>
+                </div>
+
                 <div class="add-product-form">
                     <h2>➕ إضافة منتج جديد</h2>
                     <input type="text" id="newImage" placeholder="رابط الصورة" class="admin-input">
                     <input type="text" id="newDescription" placeholder="وصف المنتج" class="admin-input">
                     <input type="text" id="newPrice" placeholder="السعر (مثال: 600 ليرة سورية)" class="admin-input">
+                    <select id="newCategory" class="admin-input">
+                        <option value="mixed">🌈 ألوان مختلطة</option>
+                        <option value="warm">🔥 ألوان دافئة</option>
+                        <option value="pastel">🌸 ألوان باستيل</option>
+                    </select>
                     <button onclick="addProduct()" class="add-btn">➕ إضافة المنتج</button>
                 </div>
 
