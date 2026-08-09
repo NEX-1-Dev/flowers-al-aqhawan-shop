@@ -5,43 +5,70 @@ let currentFilter = 'all';
 let announcements = [];
 let currentSection = 'announcements';
 
-// ===== الإعلانات الافتراضية =====
-const defaultAnnouncements = [
-    {
-        id: 1,
-        image: "https://files.catbox.moe/957jwa.png",
-        title: "🎉 خد هديتك مميزة وضل ذكرى طول العمر",
-        description: "🤍💙🎓 من Flowers Al aqhawan بمناسبة الافتتاح الكبير. عروض خاصة وحصرية لا تفوت!",
-        badge: "عرض خاص",
-        date: "2026-08-09"
-    },
-    {
-        id: 2,
-        image: "https://files.catbox.moe/9e4lw1.jpg",
-        title: "🌹 باقة الورد المختلط",
-        description: "تشكيلة رائعة من الورود بألوان مختلفة تناسب جميع المناسبات. خصم 20% لفترة محدودة!",
-        badge: "تخفيضات",
-        date: "2026-08-09"
-    },
-    {
-        id: 3,
-        image: "https://files.catbox.moe/11na6q.jpg",
-        title: "🔥 باقات الألوان الدافئة",
-        description: "أجمل باقات الورود بألوان دافئة تبعث السعادة والبهجة. اطلب الآن واستمتع بخصم مميز!",
-        badge: "عرض حصري",
-        date: "2026-08-09"
-    },
-    {
-        id: 4,
-        image: "https://files.catbox.moe/b8lsep.jpg",
-        title: "🌸 باقات الألوان باستيل",
-        description: "باقات أنيقة بألوان باستيل رقيقة تناسب المناسبات الرومانسية. خصم 15% على أول طلب!",
-        badge: "مناسبة خاصة",
-        date: "2026-08-09"
-    }
-];
+// ===== تحميل الإعلانات من ملف JSON =====
+function loadAnnouncements() {
+    fetch('announcements.json')
+        .then(response => response.json())
+        .then(data => {
+            announcements = data.announcements;
+            displayAnnouncements();
+        })
+        .catch(error => {
+            console.error('خطأ في تحميل الإعلانات:', error);
+            announcements = [
+                {
+                    id: 1,
+                    image: "https://files.catbox.moe/957jwa.png",
+                    title: "🎉 خد هديتك مميزة وضل ذكرى طول العمر",
+                    description: "🤍💙🎓 من Flowers Al aqhawan بمناسبة الافتتاح الكبير",
+                    badge: "عرض خاص",
+                    date: "2026-08-09"
+                },
+                {
+                    id: 2,
+                    image: "https://files.catbox.moe/9e4lw1.jpg",
+                    title: "🌹 باقة الورد المختلط",
+                    description: "تشكيلة رائعة من الورود بألوان مختلفة",
+                    badge: "تخفيضات",
+                    date: "2026-08-09"
+                }
+            ];
+            displayAnnouncements();
+        });
+}
 
-// ===== تحميل البيانات =====
+// ===== عرض الإعلانات =====
+function displayAnnouncements() {
+    const container = document.getElementById('announcementsContainer');
+    container.innerHTML = '';
+    
+    if (!announcements || announcements.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:50px;background:var(--card-bg);border-radius:20px;border:2px solid var(--border-color);grid-column:1/-1;">
+                <h3 style="color:#8B0000;">📢 لا توجد إعلانات حالياً</h3>
+                <p style="color:var(--text-color);">سيتم إضافة إعلانات جديدة قريباً</p>
+            </div>
+        `;
+        return;
+    }
+    
+    announcements.forEach((ann, index) => {
+        const card = document.createElement('div');
+        card.className = 'announcement-card';
+        card.innerHTML = `
+            <img src="${ann.image}" alt="${ann.title}" class="announcement-image" onerror="this.src='https://via.placeholder.com/400x280/8B0000/D4AF37?text=Flowers+Al+Aqhawan'">
+            <div class="announcement-body">
+                <span class="announcement-badge">${ann.badge || '📢 إعلان'}</span>
+                <h3 class="announcement-title">${ann.title}</h3>
+                <p class="announcement-description">${ann.description}</p>
+                <span class="announcement-date">📅 ${ann.date || new Date().toLocaleDateString('ar-EG')}</span>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// ===== تحميل المنتجات =====
 fetch('products.json')
     .then(response => response.json())
     .then(data => {
@@ -82,59 +109,12 @@ fetch('products.json')
         loadAnnouncements();
     });
 
-// ===== تحميل الإعلانات =====
-function loadAnnouncements() {
-    const saved = localStorage.getItem('announcements');
-    if (saved) {
-        try {
-            announcements = JSON.parse(saved);
-        } catch {
-            announcements = defaultAnnouncements;
-        }
-    } else {
-        announcements = defaultAnnouncements;
-        localStorage.setItem('announcements', JSON.stringify(announcements));
-    }
-    displayAnnouncements();
-}
-
-// ===== عرض الإعلانات =====
-function displayAnnouncements() {
-    const container = document.getElementById('announcementsContainer');
-    container.innerHTML = '';
-    
-    if (announcements.length === 0) {
-        container.innerHTML = `
-            <div style="text-align:center;padding:50px;background:var(--card-bg);border-radius:20px;border:2px solid var(--border-color);">
-                <h3 style="color:#8B0000;">📢 لا توجد إعلانات حالياً</h3>
-                <p style="color:var(--text-color);">سيتم إضافة إعلانات جديدة قريباً</p>
-            </div>
-        `;
-        return;
-    }
-    
-    announcements.forEach((ann, index) => {
-        const card = document.createElement('div');
-        card.className = 'announcement-card';
-        card.innerHTML = `
-            <img src="${ann.image}" alt="${ann.title}" class="announcement-image">
-            <div class="announcement-body">
-                <span class="announcement-badge">${ann.badge || '📢 إعلان'}</span>
-                <h3 class="announcement-title">${ann.title}</h3>
-                <p class="announcement-description">${ann.description}</p>
-                <span class="announcement-date">📅 ${ann.date || new Date().toLocaleDateString('ar-EG')}</span>
-            </div>
-        `;
-        container.appendChild(card);
-    });
-}
-
 // ===== عرض المنتجات =====
 function displayProducts() {
     const container = document.getElementById('productsContainer');
     container.innerHTML = '';
     
-    if (filteredProducts.length === 0) {
+    if (!filteredProducts || filteredProducts.length === 0) {
         container.innerHTML = `
             <div style="text-align:center;padding:50px;background:var(--card-bg);border-radius:20px;border:2px solid var(--border-color);grid-column:1/-1;">
                 <h3 style="color:#8B0000;">🌸 لا توجد منتجات في هذا التصنيف</h3>
@@ -164,7 +144,7 @@ function displayProducts() {
         card.innerHTML = `
             <div class="badge" style="background:${badgeColor};">${badgeText}</div>
             <div class="product-number">🌹 الباقة ${index + 1}</div>
-            <img src="${product.image}" alt="باقة ${index + 1}">
+            <img src="${product.image}" alt="باقة ${index + 1}" onerror="this.src='https://via.placeholder.com/300x250/8B0000/D4AF37?text=Flowers'">
             <p class="description">${product.description}</p>
             <div class="price">💰 ${product.price}</div>
             <button class="buy-btn" onclick="buyProduct(${product.id})">
@@ -207,15 +187,12 @@ function filterProducts(category) {
 function showSection(section) {
     currentSection = section;
     
-    // إخفاء جميع الأقسام
     document.querySelectorAll('.section-content').forEach(el => {
         el.classList.remove('active');
     });
     
-    // إظهار القسم المطلوب
     document.getElementById(section + 'Section').classList.add('active');
     
-    // تحديث الأزرار
     document.querySelectorAll('.nav-tab').forEach(btn => {
         btn.classList.remove('active');
     });
@@ -228,7 +205,6 @@ function showSection(section) {
         }
     });
     
-    // تمرير سلس إلى أعلى القسم
     document.querySelector('.section-content.active').scrollIntoView({
         behavior: 'smooth',
         block: 'start'
@@ -257,6 +233,7 @@ function buyProduct(productId) {
 🆔 رقم الطلب: ${orderNumber}
 📅 التاريخ: ${date}
 
+💻 المبرمج: 𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1
 🤍💙🎓 خد هديتك مميزة وضل ذكرى طول العمر`;
     
     const encodedMessage = encodeURIComponent(message);
@@ -323,7 +300,6 @@ function loadTheme() {
 // ===== دوال للتحديث من لوحة التحكم =====
 function updateAnnouncementsFromAdmin(newAnnouncements) {
     announcements = newAnnouncements;
-    localStorage.setItem('announcements', JSON.stringify(announcements));
     displayAnnouncements();
 }
 
