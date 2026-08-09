@@ -1,9 +1,124 @@
-// كلمة السر الصحيحة
+// ===== كلمة السر =====
 const CORRECT_PASSWORD = '15151617';
 
-// تحميل المنتجات
+// ===== المتغيرات =====
 let products = [];
+let announcements = [];
 
+// ===== تحميل الإعلانات المحفوظة =====
+function loadAnnouncementsFromStorage() {
+    const saved = localStorage.getItem('announcements');
+    if (saved) {
+        try {
+            announcements = JSON.parse(saved);
+        } catch {
+            announcements = [
+                {
+                    image: "https://files.catbox.moe/9e4lw1.jpg",
+                    text: "🎉 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓 من Flowers Al aqhawan"
+                },
+                {
+                    image: "https://files.catbox.moe/11na6q.jpg",
+                    text: "🌹 عروض خاصة بمناسبة الافتتاح! خصم 20% على جميع الباقات"
+                }
+            ];
+        }
+    } else {
+        announcements = [
+            {
+                image: "https://files.catbox.moe/9e4lw1.jpg",
+                text: "🎉 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓 من Flowers Al aqhawan"
+            },
+            {
+                image: "https://files.catbox.moe/11na6q.jpg",
+                text: "🌹 عروض خاصة بمناسبة الافتتاح! خصم 20% على جميع الباقات"
+            }
+        ];
+    }
+    displayAnnouncementsAdmin();
+}
+
+// ===== عرض الإعلانات في لوحة التحكم =====
+function displayAnnouncementsAdmin() {
+    const list = document.getElementById('announcementList');
+    list.innerHTML = '';
+    
+    if (announcements.length === 0) {
+        list.innerHTML = '<p style="color:#666;">📢 لا توجد إعلانات. أضف إعلاناً جديداً!</p>';
+        return;
+    }
+    
+    announcements.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'announcement-item-admin';
+        div.innerHTML = `
+            <img src="${item.image}" alt="إعلان">
+            <span class="announcement-text-admin">${item.text}</span>
+            <button onclick="removeAnnouncement(${index})" class="remove-announcement-btn">✕</button>
+        `;
+        list.appendChild(div);
+    });
+}
+
+// ===== إضافة إعلان =====
+function addAnnouncement() {
+    const image = document.getElementById('announcementImage').value.trim();
+    const text = document.getElementById('announcementText').value.trim();
+    
+    if (!image || !text) {
+        alert('❌ الرجاء ملء جميع الحقول!');
+        return;
+    }
+    
+    announcements.push({ image, text });
+    displayAnnouncementsAdmin();
+    
+    document.getElementById('announcementImage').value = '';
+    document.getElementById('announcementText').value = '';
+    
+    alert('✅ تم إضافة الإعلان! لا تنسى حفظ التغييرات.');
+}
+
+// ===== حذف إعلان =====
+function removeAnnouncement(index) {
+    if (!confirm('⚠️ هل أنت متأكد من حذف هذا الإعلان؟')) return;
+    announcements.splice(index, 1);
+    displayAnnouncementsAdmin();
+    alert('✅ تم حذف الإعلان! لا تنسى حفظ التغييرات.');
+}
+
+// ===== حفظ الإعلانات =====
+function saveAnnouncements() {
+    localStorage.setItem('announcements', JSON.stringify(announcements));
+    // تحديث الإعلانات في الصفحة الرئيسية
+    if (window.opener) {
+        try {
+            window.opener.updateAnnouncementsFromAdmin(announcements);
+        } catch {}
+    }
+    alert('✅ تم حفظ الإعلانات بنجاح!');
+}
+
+// ===== تحديث الرسالة الترحيبية =====
+function updateWelcomeMessage() {
+    const message = document.getElementById('welcomeMessageInput').value.trim();
+    if (!message) {
+        alert('❌ الرجاء كتابة الرسالة!');
+        return;
+    }
+    
+    localStorage.setItem('welcomeMessage', message);
+    // تحديث في الصفحة الرئيسية
+    if (window.opener) {
+        try {
+            window.opener.updateWelcomeMessageFromAdmin(message);
+        } catch {}
+    }
+    document.getElementById('welcomeMessageInput').value = '';
+    alert('✅ تم تحديث الرسالة الترحيبية بنجاح!');
+}
+
+// ===== تحميل المنتجات =====
 function loadProducts() {
     fetch('products.json')
         .then(response => response.json())
@@ -48,6 +163,12 @@ function verifyPassword() {
         document.getElementById('loginContainer').style.display = 'none';
         document.getElementById('adminPanel').style.display = 'block';
         loadProducts();
+        loadAnnouncementsFromStorage();
+        // تحميل الرسالة الترحيبية الحالية
+        const welcomeMsg = localStorage.getItem('welcomeMessage');
+        if (welcomeMsg) {
+            document.getElementById('welcomeMessageInput').value = welcomeMsg;
+        }
         error.textContent = '';
     } else {
         error.textContent = '❌ كلمة السر غير صحيحة!';
@@ -68,7 +189,6 @@ function copyShopLink() {
     navigator.clipboard.writeText(url).then(() => {
         alert('✅ تم نسخ رابط المتجر:\n' + url);
     }).catch(() => {
-        // طريقة بديلة للنسخ
         const textarea = document.createElement('textarea');
         textarea.value = url;
         document.body.appendChild(textarea);
@@ -79,28 +199,9 @@ function copyShopLink() {
     });
 }
 
-// ===== عرض المنتجات (زر عرض المنتجات) =====
+// ===== عرض المنتجات (زر) =====
 function showProducts() {
-    // فتح المتجر في نافذة جديدة
     window.open('index.html', '_blank');
-}
-
-// ===== تحديث الإعلان من لوحة التحكم =====
-function updateAnnouncementFromAdmin() {
-    const input = document.getElementById('announcementInput');
-    const text = input.value.trim();
-    
-    if (!text) {
-        alert('❌ الرجاء كتابة نص الإعلان!');
-        return;
-    }
-    
-    // حفظ الإعلان في localStorage
-    localStorage.setItem('announcementText', text);
-    localStorage.removeItem('announcementClosed');
-    
-    alert('✅ تم تحديث الإعلان بنجاح!\nسيظهر عند فتح المتجر.');
-    input.value = '';
 }
 
 // ===== عرض المنتجات في لوحة التحكم =====
@@ -202,7 +303,6 @@ function saveProducts() {
     const data = { products: products };
     const json = JSON.stringify(data, null, 2);
     
-    // تحميل الملف للمستخدم
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -211,9 +311,7 @@ function saveProducts() {
     a.click();
     URL.revokeObjectURL(url);
     
-    // حفظ في localStorage للتحديث الفوري
     localStorage.setItem('shopProducts', json);
-    
     alert('✅ تم حفظ المنتجات!\n📁 قم برفع ملف products.json إلى GitHub لتحديث المتجر للجميع.');
 }
 
@@ -224,9 +322,10 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// ===== عرض المنتجات عند تحميل الصفحة =====
+// ===== تحميل عند فتح الصفحة =====
 window.onload = function() {
     if (document.getElementById('adminPanel').style.display === 'block') {
         loadProducts();
+        loadAnnouncementsFromStorage();
     }
 };
