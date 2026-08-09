@@ -9,13 +9,34 @@
 <body>
     <div class="background-overlay"></div>
     
+    <!-- قسم الإعلانات والعروض -->
+    <div class="announcement-bar" id="announcementBar">
+        <div class="announcement-content">
+            <span class="announcement-icon">🎉</span>
+            <span class="announcement-text" id="announcementText">مرحباً بكم في متجر Flowers Al Aqhawan - عروض خاصة بمناسبة الافتتاح!</span>
+        </div>
+        <button class="announcement-close" onclick="closeAnnouncement()">✕</button>
+    </div>
+
     <header>
         <div class="header-content">
             <h1>🌼 𝔽𝕝𝕠𝕨𝕖𝕣𝕤 𝔸𝕝 𝔸𝕢𝕙𝕒𝕨𝕒𝕟 🌼</h1>
             <p class="shop-tag">Stor</p>
-            <p class="developer">💻 مبرمج الموقع: 𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1</p>
+            <div class="header-stats">
+                <span class="visitor-counter">👥 الزوار: <span id="visitorCount">0</span></span>
+                <span class="update-date">📅 آخر تحديث: <span id="lastUpdate">جار التحميل...</span></span>
+            </div>
+            <p class="developer">💻 مبرمج الموقع: <a href="https://t.me/NEX_DEV_V1" target="_blank" class="developer-link">𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1</a></p>
         </div>
     </header>
+
+    <!-- أزرار التصفية -->
+    <div class="filter-buttons">
+        <button class="filter-btn active" onclick="filterProducts('all')">🌹 جميع المنتجات</button>
+        <button class="filter-btn" onclick="filterProducts('warm')">🔥 ألوان دافئة</button>
+        <button class="filter-btn" onclick="filterProducts('pastel')">🌸 ألوان باستيل</button>
+        <button class="filter-btn" onclick="filterProducts('mixed')">🌈 ألوان مختلطة</button>
+    </div>
 
     <main class="products-container" id="productsContainer">
         <!-- سيتم إضافة المنتجات بواسطة JavaScript -->
@@ -23,6 +44,7 @@
 
     <footer>
         <p>© 2026 🌼 Flowers Al Aqhawan 🌼 - جميع الحقوق محفوظة</p>
+        <p class="footer-dev">💻 المطور: <a href="https://t.me/NEX_DEV_V1" target="_blank" class="developer-link">𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1</a></p>
     </footer>
 
     <script src="script.js"></script>
