@@ -1,7 +1,23 @@
-// تحميل المنتجات من ملف JSON
+// ===== المتغيرات العامة =====
 let products = [];
 let filteredProducts = [];
 let currentFilter = 'all';
+
+// ===== إعدادات الإعلانات =====
+const defaultAnnouncements = [
+    {
+        image: "https://files.catbox.moe/9e4lw1.jpg",
+        text: "🎉 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓 من Flowers Al aqhawan"
+    },
+    {
+        image: "https://files.catbox.moe/11na6q.jpg",
+        text: "🌹 عروض خاصة بمناسبة الافتتاح! خصم 20% على جميع الباقات"
+    },
+    {
+        image: "https://files.catbox.moe/b8lsep.jpg",
+        text: "🌸 باقات مميزة بمناسبة الأعياد والمناسبات السعيدة"
+    }
+];
 
 // ===== تحميل المنتجات =====
 fetch('products.json')
@@ -11,7 +27,8 @@ fetch('products.json')
         filteredProducts = [...products];
         displayProducts();
         updateStats();
-        loadAnnouncement();
+        loadAnnouncements();
+        loadWelcomeMessage();
     })
     .catch(error => {
         console.error('خطأ في تحميل المنتجات:', error);
@@ -41,7 +58,8 @@ fetch('products.json')
         filteredProducts = [...products];
         displayProducts();
         updateStats();
-        loadAnnouncement();
+        loadAnnouncements();
+        loadWelcomeMessage();
     });
 
 // ===== عرض المنتجات =====
@@ -51,9 +69,9 @@ function displayProducts() {
     
     if (filteredProducts.length === 0) {
         container.innerHTML = `
-            <div style="text-align:center;padding:50px;background:rgba(255,255,255,0.9);border-radius:20px;width:100%;">
+            <div style="text-align:center;padding:50px;background:var(--card-bg);border-radius:20px;width:100%;border:2px solid var(--border-color);">
                 <h2 style="color:#8B0000;">🌸 لا توجد منتجات في هذا التصنيف</h2>
-                <p style="color:#666;">يرجى اختيار تصنيف آخر</p>
+                <p style="color:var(--text-color);">يرجى اختيار تصنيف آخر</p>
             </div>
         `;
         return;
@@ -63,7 +81,6 @@ function displayProducts() {
         const card = document.createElement('div');
         card.className = 'product-card';
         
-        // تحديد لون البادج حسب التصنيف
         let badgeText = '🌹';
         let badgeColor = '#8B0000';
         if (product.category === 'warm') {
@@ -95,7 +112,6 @@ function displayProducts() {
 function filterProducts(category) {
     currentFilter = category;
     
-    // تحديث الأزرار
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
     });
@@ -120,6 +136,14 @@ function filterProducts(category) {
     displayProducts();
 }
 
+// ===== التمرير إلى المنتجات =====
+function scrollToProducts() {
+    document.getElementById('productsContainer').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+    });
+}
+
 // ===== وظيفة الشراء =====
 function buyProduct(productId) {
     const product = products.find(p => p.id === productId);
@@ -142,7 +166,8 @@ function buyProduct(productId) {
 🆔 رقم الطلب: ${orderNumber}
 📅 التاريخ: ${date}
 
-💻 المبرمج: 𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1`;
+💻 المبرمج: 𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1
+🤍💙🎓 خد هديتك مميزة وضل ذكرى طول العمر`;
     
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -155,17 +180,57 @@ function closeAnnouncement() {
     localStorage.setItem('announcementClosed', 'true');
 }
 
-// ===== تحميل الإعلان =====
-function loadAnnouncement() {
-    const isClosed = localStorage.getItem('announcementClosed');
-    if (isClosed === 'true') {
-        document.getElementById('announcementBar').style.display = 'none';
+// ===== إغلاق النافذة الترحيبية =====
+function closeWelcome() {
+    document.getElementById('welcomeModal').style.display = 'none';
+    localStorage.setItem('welcomeShown', 'true');
+}
+
+// ===== تحميل الإعلانات =====
+function loadAnnouncements() {
+    const slider = document.getElementById('announcementSlider');
+    const savedAnnouncements = localStorage.getItem('announcements');
+    let announcements = [];
+    
+    if (savedAnnouncements) {
+        try {
+            announcements = JSON.parse(savedAnnouncements);
+        } catch {
+            announcements = defaultAnnouncements;
+        }
+    } else {
+        announcements = defaultAnnouncements;
+        localStorage.setItem('announcements', JSON.stringify(announcements));
+    }
+    
+    slider.innerHTML = '';
+    announcements.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'announcement-item';
+        div.innerHTML = `
+            <img src="${item.image}" alt="إعلان ${index + 1}">
+            <span>${item.text}</span>
+        `;
+        slider.appendChild(div);
+    });
+}
+
+// ===== تحميل الرسالة الترحيبية =====
+function loadWelcomeMessage() {
+    const isShown = localStorage.getItem('welcomeShown');
+    const welcomeMessage = localStorage.getItem('welcomeMessage');
+    
+    if (welcomeMessage) {
+        document.getElementById('welcomeAnnouncement').textContent = welcomeMessage;
+    }
+    
+    if (isShown === 'true') {
+        document.getElementById('welcomeModal').style.display = 'none';
     }
 }
 
 // ===== تحديث الإحصائيات =====
 function updateStats() {
-    // عداد الزوار
     let visitors = localStorage.getItem('visitorCount');
     if (!visitors) {
         visitors = Math.floor(Math.random() * 100) + 50;
@@ -176,7 +241,6 @@ function updateStats() {
     }
     document.getElementById('visitorCount').textContent = visitors;
     
-    // تاريخ آخر تحديث
     const now = new Date();
     const dateStr = now.toLocaleDateString('ar-EG', { 
         year: 'numeric', 
@@ -188,27 +252,54 @@ function updateStats() {
     document.getElementById('lastUpdate').textContent = dateStr;
 }
 
-// ===== تحديث الإعلان من لوحة التحكم =====
-function updateAnnouncement(text) {
-    const announcementText = document.getElementById('announcementText');
-    if (announcementText) {
-        announcementText.textContent = text;
-        localStorage.setItem('announcementText', text);
-        // إظهار الإعلان إذا كان مخفياً
-        document.getElementById('announcementBar').style.display = 'flex';
-        localStorage.removeItem('announcementClosed');
+// ===== تبديل الوضع الداكن/الفاتح =====
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    const icon = document.querySelector('#themeToggle i');
+    if (newTheme === 'dark') {
+        icon.className = 'fas fa-sun';
+    } else {
+        icon.className = 'fas fa-moon';
     }
 }
 
-// تحميل الإعلان المحفوظ
-function loadSavedAnnouncement() {
-    const savedText = localStorage.getItem('announcementText');
-    if (savedText) {
-        document.getElementById('announcementText').textContent = savedText;
+// ===== تحميل الوضع المحفوظ =====
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const icon = document.querySelector('#themeToggle i');
+        if (savedTheme === 'dark') {
+            icon.className = 'fas fa-sun';
+        }
     }
 }
 
 // ===== تشغيل عند تحميل الصفحة =====
 window.onload = function() {
-    loadSavedAnnouncement();
+    loadTheme();
+    loadAnnouncements();
+    loadWelcomeMessage();
 };
+
+// ===== دالة لتحديث الإعلانات من لوحة التحكم =====
+function updateAnnouncementsFromAdmin(announcements) {
+    localStorage.setItem('announcements', JSON.stringify(announcements));
+    loadAnnouncements();
+}
+
+// ===== دالة لتحديث الرسالة الترحيبية من لوحة التحكم =====
+function updateWelcomeMessageFromAdmin(message) {
+    localStorage.setItem('welcomeMessage', message);
+    document.getElementById('welcomeAnnouncement').textContent = message;
+}
+
+// ===== عرض الإعلانات في لوحة التحكم (للمساعدة) =====
+console.log('💡 لإدارة الإعلانات من لوحة التحكم، استخدم الدوال:');
+console.log('updateAnnouncementsFromAdmin([{image:"رابط", text:"نص"}])');
+console.log('updateWelcomeMessageFromAdmin("نص الرسالة")');
