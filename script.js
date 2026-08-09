@@ -2,24 +2,46 @@
 let products = [];
 let filteredProducts = [];
 let currentFilter = 'all';
+let announcements = [];
+let currentSection = 'announcements';
 
-// ===== إعدادات الإعلانات =====
+// ===== الإعلانات الافتراضية =====
 const defaultAnnouncements = [
     {
+        id: 1,
+        image: "https://files.catbox.moe/957jwa.png",
+        title: "🎉 خد هديتك مميزة وضل ذكرى طول العمر",
+        description: "🤍💙🎓 من Flowers Al aqhawan بمناسبة الافتتاح الكبير. عروض خاصة وحصرية لا تفوت!",
+        badge: "عرض خاص",
+        date: "2026-08-09"
+    },
+    {
+        id: 2,
         image: "https://files.catbox.moe/9e4lw1.jpg",
-        text: "🎉 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓 من Flowers Al aqhawan"
+        title: "🌹 باقة الورد المختلط",
+        description: "تشكيلة رائعة من الورود بألوان مختلفة تناسب جميع المناسبات. خصم 20% لفترة محدودة!",
+        badge: "تخفيضات",
+        date: "2026-08-09"
     },
     {
+        id: 3,
         image: "https://files.catbox.moe/11na6q.jpg",
-        text: "🌹 عروض خاصة بمناسبة الافتتاح! خصم 20% على جميع الباقات"
+        title: "🔥 باقات الألوان الدافئة",
+        description: "أجمل باقات الورود بألوان دافئة تبعث السعادة والبهجة. اطلب الآن واستمتع بخصم مميز!",
+        badge: "عرض حصري",
+        date: "2026-08-09"
     },
     {
+        id: 4,
         image: "https://files.catbox.moe/b8lsep.jpg",
-        text: "🌸 باقات مميزة بمناسبة الأعياد والمناسبات السعيدة"
+        title: "🌸 باقات الألوان باستيل",
+        description: "باقات أنيقة بألوان باستيل رقيقة تناسب المناسبات الرومانسية. خصم 15% على أول طلب!",
+        badge: "مناسبة خاصة",
+        date: "2026-08-09"
     }
 ];
 
-// ===== تحميل المنتجات =====
+// ===== تحميل البيانات =====
 fetch('products.json')
     .then(response => response.json())
     .then(data => {
@@ -28,7 +50,6 @@ fetch('products.json')
         displayProducts();
         updateStats();
         loadAnnouncements();
-        loadWelcomeMessage();
     })
     .catch(error => {
         console.error('خطأ في تحميل المنتجات:', error);
@@ -59,8 +80,54 @@ fetch('products.json')
         displayProducts();
         updateStats();
         loadAnnouncements();
-        loadWelcomeMessage();
     });
+
+// ===== تحميل الإعلانات =====
+function loadAnnouncements() {
+    const saved = localStorage.getItem('announcements');
+    if (saved) {
+        try {
+            announcements = JSON.parse(saved);
+        } catch {
+            announcements = defaultAnnouncements;
+        }
+    } else {
+        announcements = defaultAnnouncements;
+        localStorage.setItem('announcements', JSON.stringify(announcements));
+    }
+    displayAnnouncements();
+}
+
+// ===== عرض الإعلانات =====
+function displayAnnouncements() {
+    const container = document.getElementById('announcementsContainer');
+    container.innerHTML = '';
+    
+    if (announcements.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:50px;background:var(--card-bg);border-radius:20px;border:2px solid var(--border-color);">
+                <h3 style="color:#8B0000;">📢 لا توجد إعلانات حالياً</h3>
+                <p style="color:var(--text-color);">سيتم إضافة إعلانات جديدة قريباً</p>
+            </div>
+        `;
+        return;
+    }
+    
+    announcements.forEach((ann, index) => {
+        const card = document.createElement('div');
+        card.className = 'announcement-card';
+        card.innerHTML = `
+            <img src="${ann.image}" alt="${ann.title}" class="announcement-image">
+            <div class="announcement-body">
+                <span class="announcement-badge">${ann.badge || '📢 إعلان'}</span>
+                <h3 class="announcement-title">${ann.title}</h3>
+                <p class="announcement-description">${ann.description}</p>
+                <span class="announcement-date">📅 ${ann.date || new Date().toLocaleDateString('ar-EG')}</span>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
 
 // ===== عرض المنتجات =====
 function displayProducts() {
@@ -69,8 +136,8 @@ function displayProducts() {
     
     if (filteredProducts.length === 0) {
         container.innerHTML = `
-            <div style="text-align:center;padding:50px;background:var(--card-bg);border-radius:20px;width:100%;border:2px solid var(--border-color);">
-                <h2 style="color:#8B0000;">🌸 لا توجد منتجات في هذا التصنيف</h2>
+            <div style="text-align:center;padding:50px;background:var(--card-bg);border-radius:20px;border:2px solid var(--border-color);grid-column:1/-1;">
+                <h3 style="color:#8B0000;">🌸 لا توجد منتجات في هذا التصنيف</h3>
                 <p style="color:var(--text-color);">يرجى اختيار تصنيف آخر</p>
             </div>
         `;
@@ -136,11 +203,35 @@ function filterProducts(category) {
     displayProducts();
 }
 
-// ===== التمرير إلى المنتجات =====
-function scrollToProducts() {
-    document.getElementById('productsContainer').scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
+// ===== التبديل بين الأقسام =====
+function showSection(section) {
+    currentSection = section;
+    
+    // إخفاء جميع الأقسام
+    document.querySelectorAll('.section-content').forEach(el => {
+        el.classList.remove('active');
+    });
+    
+    // إظهار القسم المطلوب
+    document.getElementById(section + 'Section').classList.add('active');
+    
+    // تحديث الأزرار
+    document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelectorAll('.nav-tab').forEach(btn => {
+        if (btn.textContent.includes('إعلانات') && section === 'announcements') {
+            btn.classList.add('active');
+        }
+        if (btn.textContent.includes('منتجات') && section === 'products') {
+            btn.classList.add('active');
+        }
+    });
+    
+    // تمرير سلس إلى أعلى القسم
+    document.querySelector('.section-content.active').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
     });
 }
 
@@ -166,7 +257,6 @@ function buyProduct(productId) {
 🆔 رقم الطلب: ${orderNumber}
 📅 التاريخ: ${date}
 
-💻 المبرمج: 𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1
 🤍💙🎓 خد هديتك مميزة وضل ذكرى طول العمر`;
     
     const encodedMessage = encodeURIComponent(message);
@@ -174,59 +264,9 @@ function buyProduct(productId) {
     window.open(whatsappUrl, '_blank');
 }
 
-// ===== إغلاق الإعلان =====
-function closeAnnouncement() {
-    document.getElementById('announcementBar').style.display = 'none';
-    localStorage.setItem('announcementClosed', 'true');
-}
-
-// ===== إغلاق النافذة الترحيبية =====
-function closeWelcome() {
-    document.getElementById('welcomeModal').style.display = 'none';
-    localStorage.setItem('welcomeShown', 'true');
-}
-
-// ===== تحميل الإعلانات =====
-function loadAnnouncements() {
-    const slider = document.getElementById('announcementSlider');
-    const savedAnnouncements = localStorage.getItem('announcements');
-    let announcements = [];
-    
-    if (savedAnnouncements) {
-        try {
-            announcements = JSON.parse(savedAnnouncements);
-        } catch {
-            announcements = defaultAnnouncements;
-        }
-    } else {
-        announcements = defaultAnnouncements;
-        localStorage.setItem('announcements', JSON.stringify(announcements));
-    }
-    
-    slider.innerHTML = '';
-    announcements.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'announcement-item';
-        div.innerHTML = `
-            <img src="${item.image}" alt="إعلان ${index + 1}">
-            <span>${item.text}</span>
-        `;
-        slider.appendChild(div);
-    });
-}
-
-// ===== تحميل الرسالة الترحيبية =====
-function loadWelcomeMessage() {
-    const isShown = localStorage.getItem('welcomeShown');
-    const welcomeMessage = localStorage.getItem('welcomeMessage');
-    
-    if (welcomeMessage) {
-        document.getElementById('welcomeAnnouncement').textContent = welcomeMessage;
-    }
-    
-    if (isShown === 'true') {
-        document.getElementById('welcomeModal').style.display = 'none';
-    }
+// ===== إغلاق الإعلان العلوي =====
+function closeTopAnnouncement() {
+    document.getElementById('topAnnouncementBar').style.display = 'none';
 }
 
 // ===== تحديث الإحصائيات =====
@@ -252,7 +292,7 @@ function updateStats() {
     document.getElementById('lastUpdate').textContent = dateStr;
 }
 
-// ===== تبديل الوضع الداكن/الفاتح =====
+// ===== تبديل الوضع =====
 function toggleTheme() {
     const html = document.documentElement;
     const currentTheme = html.getAttribute('data-theme');
@@ -280,26 +320,32 @@ function loadTheme() {
     }
 }
 
+// ===== دوال للتحديث من لوحة التحكم =====
+function updateAnnouncementsFromAdmin(newAnnouncements) {
+    announcements = newAnnouncements;
+    localStorage.setItem('announcements', JSON.stringify(announcements));
+    displayAnnouncements();
+}
+
+function updateWelcomeMessageFromAdmin(message) {
+    document.getElementById('topAnnouncementText').textContent = message;
+    localStorage.setItem('topAnnouncement', message);
+}
+
+// ===== تحميل الإعلان العلوي المحفوظ =====
+function loadTopAnnouncement() {
+    const saved = localStorage.getItem('topAnnouncement');
+    if (saved) {
+        document.getElementById('topAnnouncementText').textContent = saved;
+    }
+}
+
 // ===== تشغيل عند تحميل الصفحة =====
 window.onload = function() {
     loadTheme();
-    loadAnnouncements();
-    loadWelcomeMessage();
+    loadTopAnnouncement();
 };
 
-// ===== دالة لتحديث الإعلانات من لوحة التحكم =====
-function updateAnnouncementsFromAdmin(announcements) {
-    localStorage.setItem('announcements', JSON.stringify(announcements));
-    loadAnnouncements();
-}
-
-// ===== دالة لتحديث الرسالة الترحيبية من لوحة التحكم =====
-function updateWelcomeMessageFromAdmin(message) {
-    localStorage.setItem('welcomeMessage', message);
-    document.getElementById('welcomeAnnouncement').textContent = message;
-}
-
-// ===== عرض الإعلانات في لوحة التحكم (للمساعدة) =====
-console.log('💡 لإدارة الإعلانات من لوحة التحكم، استخدم الدوال:');
-console.log('updateAnnouncementsFromAdmin([{image:"رابط", text:"نص"}])');
-console.log('updateWelcomeMessageFromAdmin("نص الرسالة")');
+console.log('💡 للتحكم من لوحة التحكم:');
+console.log('updateAnnouncementsFromAdmin([{id,image,title,description,badge,date}])');
+console.log('updateWelcomeMessageFromAdmin("نص الإعلان")');
