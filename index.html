@@ -5,17 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌼 Flowers Al Aqhawan 🌼</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <div class="background-overlay"></div>
-    
-    <!-- قسم الإعلانات والعروض -->
+    <!-- الوضع الداكن/الفاتح -->
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- ===== شريط الإعلانات المتحرك ===== -->
     <div class="announcement-bar" id="announcementBar">
         <div class="announcement-content">
-            <span class="announcement-icon">🎉</span>
-            <span class="announcement-text" id="announcementText">مرحباً بكم في متجر Flowers Al Aqhawan - عروض خاصة بمناسبة الافتتاح!</span>
+            <div class="announcement-slider" id="announcementSlider">
+                <!-- سيتم إضافة الإعلانات عبر JavaScript -->
+            </div>
         </div>
         <button class="announcement-close" onclick="closeAnnouncement()">✕</button>
+    </div>
+
+    <!-- ===== رسالة ترحيبية مع إعلان ===== -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <button class="welcome-close" onclick="closeWelcome()">✕</button>
+            <div class="welcome-banner">
+                <img src="https://files.catbox.moe/957jwa.png" alt="خلفية" class="welcome-bg">
+                <div class="welcome-text">
+                    <h2>🌼 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓</h2>
+                    <h1>من <span class="shop-name">Flowers Al aqhawan</span> 🤍🌼</h1>
+                    <p class="welcome-announcement" id="welcomeAnnouncement">🎉 عروض خاصة بمناسبة الافتتاح! خصم 20% على جميع الباقات</p>
+                    <button class="welcome-btn" onclick="closeWelcome()">🌟 تسوق الآن</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <header>
@@ -30,7 +51,7 @@
         </div>
     </header>
 
-    <!-- أزرار التصفية -->
+    <!-- ===== أزرار التصفية ===== -->
     <div class="filter-buttons">
         <button class="filter-btn active" onclick="filterProducts('all')">🌹 جميع المنتجات</button>
         <button class="filter-btn" onclick="filterProducts('warm')">🔥 ألوان دافئة</button>
@@ -38,13 +59,40 @@
         <button class="filter-btn" onclick="filterProducts('mixed')">🌈 ألوان مختلطة</button>
     </div>
 
+    <!-- ===== زر عرض المنتجات (مميز) ===== -->
+    <div class="view-products-section">
+        <button class="view-products-btn" onclick="scrollToProducts()">
+            <i class="fas fa-arrow-down"></i> عرض المنتجات <i class="fas fa-arrow-down"></i>
+        </button>
+    </div>
+
     <main class="products-container" id="productsContainer">
         <!-- سيتم إضافة المنتجات بواسطة JavaScript -->
     </main>
 
+    <!-- ===== الفوتر مع روابط التواصل ===== -->
     <footer>
-        <p>© 2026 🌼 Flowers Al Aqhawan 🌼 - جميع الحقوق محفوظة</p>
-        <p class="footer-dev">💻 المطور: <a href="https://t.me/NEX_DEV_V1" target="_blank" class="developer-link">𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1</a></p>
+        <div class="footer-content">
+            <div class="footer-social">
+                <h3>📱 تابعونا على</h3>
+                <div class="social-links">
+                    <a href="https://whatsapp.com/channel/0029VbCWQIk9WtCDIiArXk1y" target="_blank" class="social-link whatsapp">
+                        <i class="fab fa-whatsapp"></i> واتساب
+                    </a>
+                    <a href="https://instagram.com/al.aqhawan" target="_blank" class="social-link instagram">
+                        <i class="fab fa-instagram"></i> إنستغرام
+                    </a>
+                    <a href="https://t.me/NEX_DEV_V1" target="_blank" class="social-link telegram">
+                        <i class="fab fa-telegram"></i> تليجرام
+                    </a>
+                </div>
+            </div>
+            <div class="footer-dev">
+                <p>© 2026 🌼 Flowers Al Aqhawan 🌼 - جميع الحقوق محفوظة</p>
+                <p>💻 المطور: <a href="https://t.me/NEX_DEV_V1" target="_blank" class="developer-link">𝑵𝑬𝑿_𝑫𝑬𝑽_𝑽1</a></p>
+                <p class="footer-message">🤍💙🎓 خد هديتك مميزة وضل ذكرى طول العمر</p>
+            </div>
+        </div>
     </footer>
 
     <script src="script.js"></script>
