@@ -34,6 +34,9 @@
                 <div class="announcement-control">
                     <h2><i class="fas fa-bullhorn"></i> إدارة الإعلانات</h2>
                     <p class="admin-hint">💡 الإعلانات تظهر في الصفحة الرئيسية كبطاقات</p>
+                    <p class="admin-hint" style="background:#8B0000;color:#fff;display:block;">
+                        ⚠️ بعد إضافة أو حذف إعلان، اضغط على "حفظ الإعلانات" لتحميل الملف ثم ارفعه على GitHub
+                    </p>
                     
                     <div class="announcement-list" id="announcementList">
                         <!-- سيتم عرض الإعلانات هنا -->
@@ -47,11 +50,16 @@
                         <input type="text" id="annBadge" placeholder="نوع الإعلان (مثال: عرض خاص)" class="admin-input">
                         <button onclick="addAnnouncement()" class="add-announcement-btn"><i class="fas fa-plus"></i> إضافة إعلان</button>
                     </div>
+                    
+                    <button onclick="saveAnnouncements()" class="save-announcements-btn">
+                        <i class="fas fa-save"></i> 💾 حفظ الإعلانات (تحميل ملف JSON)
+                    </button>
                 </div>
 
                 <!-- ===== قسم الإعلان العلوي ===== -->
                 <div class="top-announcement-control">
                     <h2><i class="fas fa-bell"></i> شريط الإعلان العلوي</h2>
+                    <p class="admin-hint">💡 يظهر في أعلى الموقع (يُحفظ في المتصفح فقط)</p>
                     <input type="text" id="topAnnouncementInput" placeholder="أدخل نص الإعلان العلوي" class="admin-input">
                     <button onclick="updateTopAnnouncement()" class="update-top-btn"><i class="fas fa-sync"></i> تحديث الإعلان</button>
                 </div>
