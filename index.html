@@ -13,30 +13,13 @@
         <i class="fas fa-moon"></i>
     </button>
 
-    <!-- ===== شريط الإعلانات المتحرك ===== -->
-    <div class="announcement-bar" id="announcementBar">
-        <div class="announcement-content">
-            <div class="announcement-slider" id="announcementSlider">
-                <!-- سيتم إضافة الإعلانات عبر JavaScript -->
-            </div>
+    <!-- ===== شريط الإعلانات السريع ===== -->
+    <div class="top-announcement-bar" id="topAnnouncementBar">
+        <div class="top-announcement-content">
+            <i class="fas fa-bullhorn"></i>
+            <span id="topAnnouncementText">🌹 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓</span>
         </div>
-        <button class="announcement-close" onclick="closeAnnouncement()">✕</button>
-    </div>
-
-    <!-- ===== رسالة ترحيبية مع إعلان ===== -->
-    <div class="welcome-modal" id="welcomeModal">
-        <div class="welcome-content">
-            <button class="welcome-close" onclick="closeWelcome()">✕</button>
-            <div class="welcome-banner">
-                <img src="https://files.catbox.moe/957jwa.png" alt="خلفية" class="welcome-bg">
-                <div class="welcome-text">
-                    <h2>🌼 خد هديتك مميزة وضل ذكرى طول العمر 🤍💙🎓</h2>
-                    <h1>من <span class="shop-name">Flowers Al aqhawan</span> 🤍🌼</h1>
-                    <p class="welcome-announcement" id="welcomeAnnouncement">🎉 عروض خاصة بمناسبة الافتتاح! خصم 20% على جميع الباقات</p>
-                    <button class="welcome-btn" onclick="closeWelcome()">🌟 تسوق الآن</button>
-                </div>
-            </div>
-        </div>
+        <button class="announcement-close" onclick="closeTopAnnouncement()">✕</button>
     </div>
 
     <header>
@@ -51,26 +34,45 @@
         </div>
     </header>
 
-    <!-- ===== أزرار التصفية ===== -->
-    <div class="filter-buttons">
-        <button class="filter-btn active" onclick="filterProducts('all')">🌹 جميع المنتجات</button>
-        <button class="filter-btn" onclick="filterProducts('warm')">🔥 ألوان دافئة</button>
-        <button class="filter-btn" onclick="filterProducts('pastel')">🌸 ألوان باستيل</button>
-        <button class="filter-btn" onclick="filterProducts('mixed')">🌈 ألوان مختلطة</button>
-    </div>
-
-    <!-- ===== زر عرض المنتجات (مميز) ===== -->
-    <div class="view-products-section">
-        <button class="view-products-btn" onclick="scrollToProducts()">
-            <i class="fas fa-arrow-down"></i> عرض المنتجات <i class="fas fa-arrow-down"></i>
+    <!-- ===== أزرار التنقل ===== -->
+    <div class="navigation-tabs">
+        <button class="nav-tab active" onclick="showSection('announcements')">
+            <i class="fas fa-bullhorn"></i> الإعلانات
+        </button>
+        <button class="nav-tab" onclick="showSection('products')">
+            <i class="fas fa-shopping-bag"></i> المنتجات
         </button>
     </div>
 
-    <main class="products-container" id="productsContainer">
-        <!-- سيتم إضافة المنتجات بواسطة JavaScript -->
-    </main>
+    <!-- ===== قسم الإعلانات ===== -->
+    <section id="announcementsSection" class="section-content active">
+        <div class="section-header">
+            <h2>📢 الإعلانات والعروض</h2>
+            <p>اكتشف أحدث العروض والمناسبات الخاصة</p>
+        </div>
+        <div class="announcements-grid" id="announcementsContainer">
+            <!-- سيتم عرض الإعلانات هنا -->
+        </div>
+    </section>
 
-    <!-- ===== الفوتر مع روابط التواصل ===== -->
+    <!-- ===== قسم المنتجات ===== -->
+    <section id="productsSection" class="section-content">
+        <div class="section-header">
+            <h2>🌹 باقات الورود</h2>
+            <p>اختر الباقة المناسبة لمناسبتك</p>
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterProducts('all')">🌹 جميع المنتجات</button>
+            <button class="filter-btn" onclick="filterProducts('warm')">🔥 ألوان دافئة</button>
+            <button class="filter-btn" onclick="filterProducts('pastel')">🌸 ألوان باستيل</button>
+            <button class="filter-btn" onclick="filterProducts('mixed')">🌈 ألوان مختلطة</button>
+        </div>
+        <div class="products-container" id="productsContainer">
+            <!-- سيتم عرض المنتجات هنا -->
+        </div>
+    </section>
+
+    <!-- ===== الفوتر ===== -->
     <footer>
         <div class="footer-content">
             <div class="footer-social">
