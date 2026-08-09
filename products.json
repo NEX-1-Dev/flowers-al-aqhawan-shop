@@ -10,7 +10,7 @@
     {
       "id": 2,
       "image": "https://files.catbox.moe/11na6q.jpg",
-      "description": "10 وردات - ألوان دافئة (جميع الالوان متوفرة)",
+      "description": "10 وردات - ألوان دافئة (برتقالي، أصفر، أحمر)",
       "price": "400 ليرة سورية",
       "category": "warm"
     },
@@ -24,7 +24,7 @@
     {
       "id": 4,
       "image": "https://files.catbox.moe/b8lsep.jpg",
-      "description": "10 وردات مع جبسوفيل - ألوان باستيل (جميع الالوان متوفرة)",
+      "description": "10 وردات مع جبسوفيل - ألوان باستيل (وردي، أرجواني، أبيض)",
       "price": "500 ليرة سورية",
       "category": "pastel"
     },
