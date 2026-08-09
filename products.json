@@ -4,31 +4,36 @@
       "id": 1,
       "image": "https://files.catbox.moe/9e4lw1.jpg",
       "description": "15 وردة - ألوان مختلطة (جميع الالوان متوفرة)",
-      "price": "600 ليرة سورية"
+      "price": "600 ليرة سورية",
+      "category": "mixed"
     },
     {
       "id": 2,
       "image": "https://files.catbox.moe/11na6q.jpg",
-      "description": "10 وردات - ألوان دافئة (برتقالي، أصفر، أحمر)",
-      "price": "400 ليرة سورية"
+      "description": "10 وردات - ألوان دافئة (جميع الالوان متوفرة)",
+      "price": "400 ليرة سورية",
+      "category": "warm"
     },
     {
       "id": 3,
       "image": "https://files.catbox.moe/226mtv.jpg",
       "description": "15 وردات - ألوان دافئة (جميع الالوان متوفرة)",
-      "price": "600 ليرة سورية"
+      "price": "600 ليرة سورية",
+      "category": "warm"
     },
     {
       "id": 4,
       "image": "https://files.catbox.moe/b8lsep.jpg",
-      "description": "10 وردات مع جبسوفيل - ألوان باستيل (وردي، أرجواني، أبيض)",
-      "price": "500 ليرة سورية"
+      "description": "10 وردات مع جبسوفيل - ألوان باستيل (جميع الالوان متوفرة)",
+      "price": "500 ليرة سورية",
+      "category": "pastel"
     },
     {
       "id": 5,
       "image": "https://files.catbox.moe/cfi6z3.jpg",
       "description": "باقة صغنونة 🐣 7 وردات (متوفر جميع الالوان)",
-      "price": "350"
+      "price": "350 ليرة سورية",
+      "category": "mixed"
     }
   ]
 }
