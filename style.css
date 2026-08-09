@@ -21,7 +21,64 @@ body {
     z-index: -1;
 }
 
-/* هيدر الموقع */
+/* ===== شريط الإعلانات ===== */
+.announcement-bar {
+    background: linear-gradient(135deg, #8B0000, #D4AF37);
+    color: #fff;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+    border-bottom: 3px solid #FF69B4;
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+.announcement-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.announcement-icon {
+    font-size: 1.8rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.announcement-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+.announcement-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 15px;
+    border-radius: 50px;
+    transition: background 0.3s;
+}
+
+.announcement-close:hover {
+    background: rgba(255,0,0,0.4);
+}
+
+/* ===== الهيدر ===== */
 header {
     background: linear-gradient(135deg, #8B0000, #D4AF37, #FF69B4);
     padding: 20px;
@@ -48,6 +105,23 @@ header {
     margin: 5px 0;
 }
 
+.header-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.header-stats span {
+    color: #fff;
+    font-size: 1rem;
+    background: rgba(0,0,0,0.3);
+    padding: 5px 15px;
+    border-radius: 30px;
+    backdrop-filter: blur(5px);
+}
+
 .developer {
     color: #fff;
     font-size: 1rem;
@@ -56,7 +130,53 @@ header {
     font-weight: bold;
 }
 
-/* حاوية المنتجات */
+.developer-link {
+    color: #D4AF37;
+    text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.developer-link:hover {
+    color: #FF69B4;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+}
+
+/* ===== أزرار التصفية ===== */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    flex-wrap: wrap;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.filter-btn {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid #D4AF37;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.filter-btn:hover {
+    background: #D4AF37;
+    transform: scale(1.05);
+}
+
+.filter-btn.active {
+    background: #D4AF37;
+    color: #8B0000;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+/* ===== حاوية المنتجات ===== */
 .products-container {
     display: flex;
     flex-wrap: wrap;
@@ -67,7 +187,7 @@ header {
     margin: 0 auto;
 }
 
-/* بطاقة المنتج */
+/* ===== بطاقة المنتج ===== */
 .product-card {
     background: rgba(255, 255, 255, 0.92);
     border-radius: 20px;
@@ -77,6 +197,12 @@ header {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 2px solid #D4AF37;
     text-align: center;
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .product-card:hover {
@@ -104,6 +230,16 @@ header {
     display: inline-block;
 }
 
+.product-card .product-category {
+    font-size: 0.9rem;
+    color: #8B0000;
+    background: rgba(212, 175, 55, 0.2);
+    padding: 3px 15px;
+    border-radius: 30px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
 .product-card .description {
     font-size: 1.1rem;
     color: #333;
@@ -123,7 +259,23 @@ header {
     display: inline-block;
 }
 
-/* زر الشراء */
+.product-card .badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #8B0000;
+    color: #D4AF37;
+    padding: 5px 15px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.product-card {
+    position: relative;
+}
+
+/* ===== زر الشراء ===== */
 .buy-btn {
     background: linear-gradient(135deg, #8B0000, #D4AF37);
     color: #fff;
@@ -145,7 +297,7 @@ header {
     background: linear-gradient(135deg, #D4AF37, #8B0000);
 }
 
-/* الفوتر */
+/* ===== الفوتر ===== */
 footer {
     background: rgba(139, 0, 0, 0.9);
     color: #D4AF37;
@@ -155,7 +307,12 @@ footer {
     border-top: 3px solid #D4AF37;
 }
 
-/* تصميم متجاوب */
+.footer-dev {
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+/* ===== التصميم المتجاوب ===== */
 @media (max-width: 768px) {
     .header-content h1 {
         font-size: 1.8rem;
@@ -168,6 +325,24 @@ footer {
     
     .shop-tag {
         font-size: 1.2rem;
+    }
+
+    .header-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .announcement-text {
+        font-size: 0.9rem;
+    }
+
+    .filter-buttons {
+        gap: 8px;
+    }
+    
+    .filter-btn {
+        padding: 6px 15px;
+        font-size: 0.8rem;
     }
 }
 
@@ -182,5 +357,9 @@ footer {
     
     .product-card img {
         height: 180px;
+    }
+
+    .announcement-icon {
+        font-size: 1.2rem;
     }
 }
